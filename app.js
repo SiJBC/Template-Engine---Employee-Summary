@@ -35,27 +35,57 @@ init()
         buildTeam();
     });
 
-function init() {
+function init() 
+    
+    {
     return inquirer.prompt([
         {
             type: "input",
             name: "name",
-            message: `What is your manager's name?`
+            message: `What is your manager's name?`,
+            validate: function managerName(name){
+                 if (name != ``){
+                    return name != `` 
+                 }
+         else {console.log ("please enter a valid name")}
+                }    
         },
         {
             type: "input",
             name: "id",
-            message: `What is your manager's ID?`
+            message: `What is your manager's ID?`,
+            validate: function managerID(name){
+               if (name != ``){
+                return name;
+               }
+                else console.log("please enter a valid name")
+            }
+            
+            
         },
         {
             type: "input",
             name: "email",
-            message: `What is your manager's email?`
+            message: `What is your manager's email?`,
+            validate: function managerEmail(name){
+                if (name != ``){
+                    return name;
+                   }
+                    else console.log("please enter a valid name")
+                }
+            
         },
         {
             type: "input",
             name: "officeNumber",
-            message: `What is your manager's office number?`
+            message: `What is your manager's office number?`,
+            validate: function managerOfficeNumber(name){
+                if (name != ``){
+                    return name;
+                   }
+                    else console.log("please enter a valid name")
+                
+            }
         }
     ])
 }
