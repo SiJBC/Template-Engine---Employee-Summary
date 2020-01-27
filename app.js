@@ -5,6 +5,8 @@ const Engineer = require("./lib/engineer.js");
 const Intern = require("./lib/intern.js")
 const Manager = require("./lib/Manager.js");
 const open = require('open');
+const generateHtml = require('htmlString.js')
+
 var headerHtmlString = `<!DOCTYPE html>
 <html>
 <head>
@@ -16,17 +18,31 @@ var headerHtmlString = `<!DOCTYPE html>
 		<h1 class="text-center">Here is your team</h1>
 	</div>
 	<div class="container">
-		<div class="col-sm-6 col-sm-offset-3">`
-var footerHtmlString = `</body>
+		<div class="col-sm-6 col-sm-offset-3">
+				
+				<ul>`
+
+var footerHtmlString = ` </body>
 </html>`
 
 
 init()
     .then((answers) => {
         const manager = new Manager(answers.name, answers.id, answers.email, answers.officeNumber);
-        let managerHtml = `${headerHtmlString}<li> Manager's name ${answers.name}</li><div> Manager's ID ${answers.id}</li><li> Manager's email${answers.email}</li><li> Manaer's office Number ${answers.officeNumber}<li>`
+        let managerHtml = `  <ul>
+        <li>Manager's name ${answers.name}</li>
+        <li>Manager's ID ${answers.id}</li>
+        <li>Manager's email ${answers.email}</li>
+        <li>Manager's office number ${answers.officeNumber}</li>
+    </ul>
+          `
         console.log(manager)
-        fs.writeFile("index.html", managerHtml, function (err) {
+        fs.writeFile("./output/index.html", headerHtmlString, function (err) {
+            if (err) {
+                return console.log(err);
+            }
+        })
+        fs.appendFile("./output/index.html", managerHtml, function (err) {
             if (err) {
                 return console.log(err);
             }
@@ -35,57 +51,51 @@ init()
         buildTeam();
     });
 
-function init() 
-    
-    {
+function init() {
     return inquirer.prompt([
         {
             type: "input",
             name: "name",
             message: `What is your manager's name?`,
-            validate: function managerName(name){
-                 if (name != ``){
-                    return name != `` 
-                 }
-         else {console.log ("please enter a valid name")}
-                }    
+            validate: function managerNameValidate(name) {
+                if (name != ``) {
+                    return name != ``
+                }
+                else { console.log("please enter a valid name") }
+            }
         },
         {
             type: "input",
             name: "id",
             message: `What is your manager's ID?`,
-            validate: function managerID(name){
-               if (name != ``){
-                return name;
-               }
+            validate: function managerIDValidate(name) {
+                if (name != ``) {
+                    return name != ``;
+                }
                 else console.log("please enter a valid name")
             }
-            
-            
         },
         {
             type: "input",
             name: "email",
             message: `What is your manager's email?`,
-            validate: function managerEmail(name){
-                if (name != ``){
-                    return name;
-                   }
-                    else console.log("please enter a valid name")
+            validate: function managerEmailValidate(name) {
+                if (name != ``) {
+                    return name != ``;
                 }
-            
+                else console.log("please enter a valid name")
+            }
         },
         {
             type: "input",
             name: "officeNumber",
             message: `What is your manager's office number?`,
-            validate: function managerOfficeNumber(name){
-                if (name != ``){
-                    return name;
-                   }
-                    else console.log("please enter a valid name")
-                
-            }
+            validate: function managerOfficeNumberValidate(name) {
+                if (name != ``) {
+                    return name != ``;
+                }
+                else console.log("please enter a valid name")
+           }
         }
     ])
 }
@@ -106,83 +116,118 @@ function buildTeam() {
                     {
                         type: "input",
                         name: "name",
-                        message: `What is your engineer's name?`
+                        message: `What is your engineer's name?`,
+                        validate: function EngineerNameValidate(name) {
+                            if (name != ``) {
+                                return name != ``;
+                            }
+                            else console.log("please enter a valid name")
+                       }
                     },
                     {
                         type: "input",
                         name: "id",
-                        message: `What is your engineer's ID?`
+                        message: `What is your engineer's ID?`,
+                        validate: function engineerIdValidate(name) {
+                            if (name != ``) {
+                                return name != ``;
+                            }
+                            else console.log("please enter a valid name")
+                       }
                     },
                     {
                         type: "input",
                         name: "email",
-                        message: `What is your engineer's email?`
+                        message: `What is your engineer's email?`,
+                        validate: function engineerEmailValidate(name) {
+                            if (name != ``) {
+                                return name != ``;
+                            }
+                            else console.log("please enter a valid name")
+                        }
                     },
                     {
                         type: "input",
                         name: "github",
-                        message: `What is your engineer's GitHub??`
+                        message: `What is your engineer's GitHub??`,
+                        validate: function engineerGithublValidate(name) {
+                            if (name != ``) {
+                                return name != ``;
+                            }
+                            else console.log("please enter a valid name")
+                        }
                     }
+
                 ]).then((answers) => {
                     let engineer = new Engineer(answers.name, answers.id, answers.email, answers.github);
                     console.log(engineer)
-                    let engineerHtml = `${answers.name}</div><div> ${answers.id}</div><div> ${answers.email}</div><div>${answers.github}`
-                        fs.appendFile("index.html", engineerHtml, function (err) {
-                            if (err) {
-                                return console.log(err);
-                            }
-                        })
-
-                        buildTeam();
-                    })
-                }
-            if (answer.role === "Intern") {
-                    return inquirer.prompt([
-                        {
-                            type: "input",
-                            name: "name",
-                            message: `What is your intern's name?`
-                        },
-                        {
-                            type: "input",
-                            name: "id",
-                            message: `What is your intern's ID?`
-                        },
-                        {
-                            type: "input",
-                            name: "email",
-                            message: `What is your intern's email?`
-                        },
-                        {
-                            type: "input",
-                            name: "school",
-                            message: `What is your intern's school?`
-                        }
-
-                    ]).then((answers) => {
-                        let intern = new Intern(answers.name, answers.id, answers.email, answers.school);
-                        console.log(intern)
-                        let internHtml = `Intern's ${answers.name}</div><div>Intern's ID ${answers.id}</div><div>Intern's email ${answers.email}</div><div>Intern's ${answers.school}`
-                        fs.appendFile("index.html", internHtml, function (err) {
-                            if (err) {
-                                return console.log(err);
-                            }
-                        })
-                        buildTeam();
-                    })
-                }
-                if (answer.role === "I don't want to add any more team members") {
-                    fs.appendFile("index.html", footerHtmlString, function (err) {
+                    let engineerHtml = `   <ul>
+                    <li>engeinner's name ${answers.name}</li>
+                    <li>engineer's ID ${answers.id}</li>
+                    <li>engineer's email ${answers.email}</li>
+                    <li>enginner's github ${answers.github}</li>
+                </ul>`
+                    fs.appendFile("./output/index.html", engineerHtml, function (err) {
                         if (err) {
                             return console.log(err);
                         }
-                    })    
-                    open('index.html');
-                    return
+                    })
+
+                    buildTeam();
+                })
+            }
+            if (answer.role === "Intern") {
+                return inquirer.prompt([
+                    {
+                        type: "input",
+                        name: "name",
+                        message: `What is your intern's name?`
+                    },
+                    {
+                        type: "input",
+                        name: "id",
+                        message: `What is your intern's ID?`
+                    },
+                    {
+                        type: "input",
+                        name: "email",
+                        message: `What is your intern's email?`
+                    },
+                    {
+                        type: "input",
+                        name: "school",
+                        message: `What is your intern's school?`
+                    }
+
+                ]).then((answers) => {
+                    let intern = new Intern(answers.name, answers.id, answers.email, answers.school);
+                    console.log(intern)
+                    let internHtml = `<ul>
+                    <li>Intern's name ${answers.name}</li>
+                    <li>Interns's ID ${answers.id}</li>
+                    <li>Interns's email ${answers.email}</li>
+                    <li>Intern's school ${answers.school}</li>
+                </ul>`
+                fs.appendFile("./output/index.html", internHtml, function (err) {
+                    if (err) {
+                        return console.log(err);
+                    }
+                })
+                    buildTeam();
+                })
+            }
+            if (answer.role === "I don't want to add any more team members") {
+                fs.appendFile("./output/index.html", footerHtmlString, function (err) {
+                    if (err) {
+                        return console.log(err);
+                    }
+                })
+                open('./output/index.html');
+                return
 
 
-                }
-            })
+            }
+        })
 
 
 }
