@@ -5,43 +5,18 @@ const Engineer = require("./lib/engineer.js");
 const Intern = require("./lib/intern.js")
 const Manager = require("./lib/Manager.js");
 const open = require('open');
-const generateHtml = require('htmlString.js')
-
-var headerHtmlString = `<!DOCTYPE html>
-<html>
-<head>
-	<title>Page</title>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-</head>
-<body>
-	<div class="jumbotron">
-		<h1 class="text-center">Here is your team</h1>
-	</div>
-	<div class="container">
-		<div class="col-sm-6 col-sm-offset-3">
-				
-				<ul>`
-
-var footerHtmlString = ` </body>
-</html>`
-
+const GenerateHtml = require('./lib/htmlString.js')
 
 init()
     .then((answers) => {
         const manager = new Manager(answers.name, answers.id, answers.email, answers.officeNumber);
-        let managerHtml = `  <ul>
-        <li>Manager's name ${answers.name}</li>
-        <li>Manager's ID ${answers.id}</li>
-        <li>Manager's email ${answers.email}</li>
-        <li>Manager's office number ${answers.officeNumber}</li>
-    </ul>
-          `
-        console.log(manager)
+        let headerHtmlString = GenerateHtml.header();
         fs.writeFile("./output/index.html", headerHtmlString, function (err) {
             if (err) {
                 return console.log(err);
             }
         })
+        let managerHtml = GenerateHtml.manager(manager);
         fs.appendFile("./output/index.html", managerHtml, function (err) {
             if (err) {
                 return console.log(err);
@@ -58,10 +33,7 @@ function init() {
             name: "name",
             message: `What is your manager's name?`,
             validate: function managerNameValidate(name) {
-                if (name != ``) {
-                    return name != ``
-                }
-                else { console.log("please enter a valid name") }
+                return /[a-z1-9]/gi.test(name);
             }
         },
         {
@@ -80,10 +52,7 @@ function init() {
             name: "email",
             message: `What is your manager's email?`,
             validate: function managerEmailValidate(name) {
-                if (name != ``) {
-                    return name != ``;
-                }
-                else console.log("please enter a valid name")
+                return /[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}/gi.test(name);
             }
         },
         {
@@ -161,12 +130,7 @@ function buildTeam() {
                 ]).then((answers) => {
                     let engineer = new Engineer(answers.name, answers.id, answers.email, answers.github);
                     console.log(engineer)
-                    let engineerHtml = `   <ul>
-                    <li>engeinner's name ${answers.name}</li>
-                    <li>engineer's ID ${answers.id}</li>
-                    <li>engineer's email ${answers.email}</li>
-                    <li>enginner's github ${answers.github}</li>
-                </ul>`
+                    let engineerHtml = GenerateHtml.engineer(engineer)
                     fs.appendFile("./output/index.html", engineerHtml, function (err) {
                         if (err) {
                             return console.log(err);
@@ -202,12 +166,7 @@ function buildTeam() {
                 ]).then((answers) => {
                     let intern = new Intern(answers.name, answers.id, answers.email, answers.school);
                     console.log(intern)
-                    let internHtml = `<ul>
-                    <li>Intern's name ${answers.name}</li>
-                    <li>Interns's ID ${answers.id}</li>
-                    <li>Interns's email ${answers.email}</li>
-                    <li>Intern's school ${answers.school}</li>
-                </ul>`
+                    let internHtml = GenerateHtml.intern(intern)
                 fs.appendFile("./output/index.html", internHtml, function (err) {
                     if (err) {
                         return console.log(err);
@@ -224,28 +183,10 @@ function buildTeam() {
                 })
                 open('./output/index.html');
                 return
-
-
             }
         })
 
 
 }
 
-// init()
-//     .then((answers) => {
-//         const manager = new Manager(answers.name, answers.id, answers.email, answers.officeNumber);
-//         let managerHtml = `${answers.name, answers.id, answers.email, answers.school}`
-//         console.log(manager)
-//         fs.appendFile("manager.html", managerHtml, function (err) {
-//             if (err) {
-//                 return console.log(err);
-//             }
-//         })
-//         buildTeam();
-//     });
 
-// create html files, populate those with the information from inquirer and
-//  then append all those onto the main html read file write file,
-//  fs package, use the readme...
-// 
