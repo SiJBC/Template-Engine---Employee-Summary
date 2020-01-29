@@ -1,6 +1,5 @@
 const inquirer = require("inquirer");
 const fs = require("fs");
-const Employee = require("./lib/employee.js");
 const Engineer = require("./lib/engineer.js");
 const Intern = require("./lib/intern.js")
 const Manager = require("./lib/Manager.js");
@@ -22,7 +21,7 @@ init()
                 return console.log(err);
             }
         })
-        console.log("Your manager has been added")
+        console.log(`Manager ${answers.name} profile has been added`)
         buildTeam();
     });
 
@@ -31,26 +30,26 @@ function init() {
         {
             type: "input",
             name: "name",
-            message: `What is your manager's name?`,
+            message: `What is your manager's name? 
+            answer must be a word to continue`,
             validate: function managerNameValidate(name) {
-                return /[a-z1-9]/gi.test(name);
+                return /[a-z]/gi.test(name);
             }
         },
         {
             type: "input",
             name: "id",
-            message: `What is your manager's ID?`,
+            message: `What is your manager's ID? 
+            your answer must be a number to continue`,
             validate: function managerIDValidate(name) {
-                if (name != ``) {
-                    return name != ``;
-                }
-                else console.log("please enter a valid name")
+                return /[1-9]/gi.test(name);
             }
         },
         {
             type: "input",
             name: "email",
-            message: `What is your manager's email?`,
+            message: `What is your manager's email? 
+            use email format "user@domain.com" to continue`,
             validate: function managerEmailValidate(name) {
                 return /[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}/gi.test(name);
             }
@@ -58,12 +57,10 @@ function init() {
         {
             type: "input",
             name: "officeNumber",
-            message: `What is your manager's office number?`,
+            message: `What is your manager's office number?
+            answer with numbers to continue`,
             validate: function managerOfficeNumberValidate(name) {
-                if (name != ``) {
-                    return name != ``;
-                }
-                else console.log("please enter a valid name")
+                return /[1-9]/gi.test(name);
            }
         }
     ])
@@ -75,12 +72,12 @@ function buildTeam() {
             type: "list",
             name: "role",
             message: "What type of team member would you like to add?",
-            choices: ["Engineer", "Intern", "I don't want to add any more team members"]
+            choices: ["Manager", "Engineer", "Intern", "I don't want to add any more team members"]
         }
 
     ])
-        .then((answer) => {
-            if (answer.role === "Engineer") {
+        .then((answers) => {
+            if (answers.role === "Engineer") {
                 return inquirer.prompt([
                     {
                         type: "input",
@@ -129,7 +126,7 @@ function buildTeam() {
 
                 ]).then((answers) => {
                     let engineer = new Engineer(answers.name, answers.id, answers.email, answers.github);
-                    console.log(engineer)
+                    console.log(`Engineer ${answers.name} profile has been added`)
                     let engineerHtml = GenerateHtml.engineer(engineer)
                     fs.appendFile("./output/index.html", engineerHtml, function (err) {
                         if (err) {
@@ -140,7 +137,7 @@ function buildTeam() {
                     buildTeam();
                 })
             }
-            if (answer.role === "Intern") {
+            if (answers.role === "Intern") {
                 return inquirer.prompt([
                     {
                         type: "input",
@@ -165,7 +162,7 @@ function buildTeam() {
 
                 ]).then((answers) => {
                     let intern = new Intern(answers.name, answers.id, answers.email, answers.school);
-                    console.log(intern)
+                    console.log(`Intern ${answers.name} profile has been added`)
                     let internHtml = GenerateHtml.intern(intern)
                 fs.appendFile("./output/index.html", internHtml, function (err) {
                     if (err) {
@@ -175,7 +172,59 @@ function buildTeam() {
                     buildTeam();
                 })
             }
-            if (answer.role === "I don't want to add any more team members") {
+            if(answers.role === "Manager")
+            return inquirer.prompt ([
+                {
+                    type: "input",
+                    name: "name",
+                    message: `What is your manager's name? 
+                    answer must be a word to continue`,
+                    validate: function managerNameValidate(name) {
+                        return /[a-z]/gi.test(name);
+                    }
+                },
+                {
+                    type: "input",
+                    name: "id",
+                    message: `What is your manager's ID? 
+                    your answer must be a number to continue`,
+                    validate: function managerIDValidate(name) {
+                        return /[1-9]/gi.test(name);
+                    }
+                },
+                {
+                    type: "input",
+                    name: "email",
+                    message: `What is your manager's email? 
+                    use email format "user@domain.com" to continue`,
+                    validate: function managerEmailValidate(name) {
+                        return /[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}/gi.test(name);
+                    }
+                },
+                {
+                    type: "input",
+                    name: "officeNumber",
+                    message: `What is your manager's office number?
+                    answer with numbers to continue`,
+                    validate: function managerOfficeNumberValidate(name) {
+                        return /[1-9]/gi.test(name);
+                   }
+                }
+            ]).then((answers) => {
+                const manager = new Manager(answers.name, answers.id, answers.email, answers.officeNumber);
+                console.log(manager)
+                let managerHtml = GenerateHtml.manager(manager);
+            fs.appendFile("./output/index.html", managerHtml, function (err) {
+                if (err) {
+                    return console.log(err);
+                }
+            })
+                buildTeam();
+            })
+        
+
+            if (answers.role === "I don't want to add any more team members") {
+                let footerHtmlString = GenerateHtml.footer();
                 fs.appendFile("./output/index.html", footerHtmlString, function (err) {
                     if (err) {
                         return console.log(err);
