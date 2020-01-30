@@ -30,37 +30,46 @@ function init() {
         {
             type: "input",
             name: "name",
-            message: `What is your manager's name? 
-            answer must be a word to continue`,
-            validate: function managerNameValidate(name) {
-                return /[a-z]/gi.test(name);
+            message: `What is your manager's name?`,
+            validate: function (name) {
+                if (/[a-z]/gi.test(name)) {
+                    return true;
+                }
+                else console.log("please enter a valid name only containing letters")
             }
         },
         {
             type: "input",
             name: "id",
-            message: `What is your manager's ID? 
-            your answer must be a number to continue`,
-            validate: function managerIDValidate(name) {
-                return /[1-9]/gi.test(name);
+            message: `What is your manager's ID?`,
+            validate: function (name) {
+                if (/[1-9]/gi.test(name)) {
+                    return true;
+                }
+                else console.log("please enter a valid ID number")
             }
         },
         {
             type: "input",
             name: "email",
-            message: `What is your manager's email? 
-            use email format "user@domain.com" to continue`,
-            validate: function managerEmailValidate(name) {
-                return /[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}/gi.test(name);
+            message: `What is your manager's email?`,
+            validate: function (name) {
+                if (/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}/gi.test(name)) {
+                    return true;
+                }
+                else console.log("please enter a valid email address in the format user@domain.com")
             }
         },
         {
             type: "input",
             name: "officeNumber",
-            message: `What is your manager's office number?
-            answer with numbers to continue`,
-            validate: function managerOfficeNumberValidate(name) {
-                return /[1-9]/gi.test(name);
+            message: `What is your manager's office number?`,
+            validate: function (name) {
+               
+                if (/[1-9]/gi.test(name)) {
+                    return true;
+                }
+                else console.log("please enter a valid ID number")
            }
         }
     ])
@@ -83,33 +92,33 @@ function buildTeam() {
                         type: "input",
                         name: "name",
                         message: `What is your engineer's name?`,
-                        validate: function EngineerNameValidate(name) {
-                            if (name != ``) {
-                                return name != ``;
+                        validate: function (name) {
+                            if (/[a-z]/gi.test(name)) {
+                                return true;
                             }
-                            else console.log("please enter a valid name")
+                            else console.log("please enter a valid name only containing letters")
                        }
                     },
                     {
                         type: "input",
                         name: "id",
                         message: `What is your engineer's ID?`,
-                        validate: function engineerIdValidate(name) {
-                            if (name != ``) {
-                                return name != ``;
+                        validate: function (name) {
+                            if (/[1-9]/gi.test(name)) {
+                                return true;
                             }
-                            else console.log("please enter a valid name")
+                            else console.log("please enter a valid ID number")
                        }
                     },
                     {
                         type: "input",
                         name: "email",
                         message: `What is your engineer's email?`,
-                        validate: function engineerEmailValidate(name) {
-                            if (name != ``) {
-                                return name != ``;
+                        validate: function (name) {
+                            if (/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}/gi.test(name)) {
+                                return true;
                             }
-                            else console.log("please enter a valid name")
+                            else console.log("please enter a valid email in the format user@domain.com")
                         }
                     },
                     {
@@ -120,7 +129,7 @@ function buildTeam() {
                             if (name != ``) {
                                 return name != ``;
                             }
-                            else console.log("please enter a valid name")
+                            else console.log("please enter a valid Github username")
                         }
                     }
 
@@ -142,22 +151,46 @@ function buildTeam() {
                     {
                         type: "input",
                         name: "name",
-                        message: `What is your intern's name?`
+                        message: `What is your intern's name?`,
+                        validate: function (name) {
+                            if (/[a-z]/gi.test(name)) {
+                                return true;
+                            }
+                            else console.log("please enter a valid name only containing letters")
+                       }
                     },
                     {
                         type: "input",
                         name: "id",
-                        message: `What is your intern's ID?`
+                        message: `What is your intern's ID?`,
+                        validate: function (name) {
+                            if (/[1-9]/gi.test(name)) {
+                                return true;
+                            }
+                            else console.log("please enter a valid ID number")
+                       }
                     },
                     {
                         type: "input",
                         name: "email",
-                        message: `What is your intern's email?`
+                        message: `What is your intern's email?`,
+                        validate: function (name) {
+                            if (/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}/gi.test(name)) {
+                                return true;
+                            }
+                            else console.log("please enter a valid email in the format user@domain.com")
+                        }
                     },
                     {
                         type: "input",
                         name: "school",
-                        message: `What is your intern's school?`
+                        message: `What is your intern's school?`,
+                        validate: function (name) {
+                            if (/[a-z]/gi.test(name)) {
+                                return true;
+                            }
+                            else console.log("please enter a valid name only containing letters")
+                        }
                     }
 
                 ]).then((answers) => {
@@ -179,7 +212,7 @@ function buildTeam() {
                     name: "name",
                     message: `What is your manager's name? 
                     answer must be a word to continue`,
-                    validate: function managerNameValidate(name) {
+                    validate: function (name) {
                         return /[a-z]/gi.test(name);
                     }
                 },
