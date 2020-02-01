@@ -10,7 +10,5 @@ npm install
 
 node app.js
 
-when the project works it looks like the screenshot below
-
 ![screenshot](https://github.com/SiJBC/Template-Engine---Employee-Summary/blob/master/Screenshot.png "Screenshot")
 
