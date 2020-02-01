@@ -9,9 +9,9 @@ npm install
 
 node app.js
 
-enter manager details must be a string containing letters only
-enter the manager id must only contain numbers
-enter the email must be in propeer email formation user@domain.com
+<enter> manager details must be a string containing letters only
+<enter> the manager id must only contain numbers
+<enter> the email must be in propeer email formation "user@domain.com"
 
 when the project works it looks like the screenshot below
 
