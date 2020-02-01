@@ -16,5 +16,5 @@ enter the email must be in propeer email formation user@domain.com
 when the project works it looks like the screenshot below
 
 
-![screenshot](https://github.com/SiJBC/profile_generator/blob/master/images/Screenshot.png "Screenshot")
+![screenshot](https://github.com/SiJBC/Template-Engine---Employee-Summary/blob/master/Screenshot.png "Screenshot")
 
