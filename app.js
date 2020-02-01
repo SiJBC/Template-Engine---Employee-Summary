@@ -10,18 +10,18 @@ const GenerateHtml = require('./lib/htmlString.js')
 // as the team will be run by a single manager the manager question prompts run when the application is first opened
 
 init()
-// after we have run our intial function where we get the user info for the manager we are setting up a promise where we enter in the user input
+    // after we have run our intial function where we get the user info for the manager we are setting up a promise where we enter in the user input
     .then((answers) => {
-// we are using the class constructor to generate a new variable that we can enter into our html file
-        const manager = new Manager(answers.name, answers.id, answers.email, answers.officeNumber);
+        // we are using the class constructor to generate a new variable that we can enter into our html file
         let headerHtmlString = GenerateHtml.header();
-// initially we want to set up a new html document so we use the write file fs function
+        // initially we want to set up a new html document so we use the write file fs function
         fs.writeFile("./output/index.html", headerHtmlString, function (err) {
             if (err) {
                 return console.log(err);
             }
         })
-// here we enter the manager values into our manager object in the class constructor
+        // here we enter the manager values into our manager object in the class constructor
+        const manager = new Manager(answers.name, answers.id, answers.email, answers.officeNumber);
         let managerHtml = GenerateHtml.manager(manager);
         fs.appendFile("./output/index.html", managerHtml, function (err) {
             if (err) {
@@ -39,7 +39,7 @@ function init() {
             type: "input",
             name: "name",
             message: `What is your manager's name?`,
-// use the validation and regular expression to check that the strings matches the expected format and syntax in this case it must be a word containing only letters
+            // use the validation and regular expression to check that the strings matches the expected format and syntax in this case it must be a word containing only letters
             validate: function (name) {
                 if (/[a-z]/gi.test(name)) {
                     return true;
@@ -51,7 +51,7 @@ function init() {
             type: "input",
             name: "id",
             message: `What is your manager's ID?`,
-// the format must be only numbers
+            // the format must be only numbers
             validate: function (name) {
                 if (/[1-9]/gi.test(name)) {
                     return true;
@@ -63,7 +63,7 @@ function init() {
             type: "input",
             name: "email",
             message: `What is your manager's email?`,
-// the format must match the typical email format of user@domain.syntax
+            // the format must match the typical email format of user@domain.syntax
             validate: function (name) {
                 if (/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}/gi.test(name)) {
                     return true;
@@ -76,7 +76,7 @@ function init() {
             name: "officeNumber",
             message: `What is your manager's office number?`,
             validate: function (name) {
-// the fomat must be only numbers
+                // the fomat must be only numbers
                 if (/[1-9]/gi.test(name)) {
                     return true;
                 }
@@ -98,10 +98,10 @@ function keepBuilding() {
 
         .then((answers) => {
             if (answers.moreTeamMembers === true) {
-// if the user decides to add more members then the function to continue building the team is run
+                // if the user decides to add more members then the function to continue building the team is run
                 continueTeam()
             }
-// if the user decides not to add more members then the function to open the html is run
+            // if the user decides not to add more members then the function to open the html is run
             else { openHTML() }
         })
 }
@@ -150,7 +150,7 @@ function continueTeam() {
             choices: ["Engineer", "Intern"]
         },
     ])
-// we use a promise statement to run an extra function where we are checking if the user would like to add an intern or an engineer
+        // we use a promise statement to run an extra function where we are checking if the user would like to add an intern or an engineer
         .then((answers) => {
             getRole(answers)
         })
@@ -174,7 +174,7 @@ function getRole(answers) {
             }
         }
         ])
-// using the class constructor from engineer.js to create a new variable which enters the information into the html file
+            // using the class constructor from engineer.js to create a new variable which enters the information into the html file
             .then((role) => {
                 let engineer = new Engineer(answers.name, answers.id, answers.email, role.github);
                 console.log(`Engineer ${answers.name} profile has been added`)
@@ -190,7 +190,7 @@ function getRole(answers) {
 
     }
 
-//  prompting for the intern information
+    //  prompting for the intern information
     else {
         inquirer.prompt([
             {
@@ -223,14 +223,14 @@ function getRole(answers) {
 }
 // function to open the html file 
 function openHTML(answers) {
-// close the html file by adding in the end of the html string
+    // close the html file by adding in the end of the html string
     let footerHtmlString = GenerateHtml.footer();
     fs.appendFile("./output/index.html", footerHtmlString, function (err) {
         if (err) {
             return console.log(err);
         }
     })
-// use the npm module open to run the file in the browser
+    // use the npm module open to run the file in the browser
     open('./output/index.html');
     return
 }
